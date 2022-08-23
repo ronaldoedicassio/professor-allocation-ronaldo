@@ -27,7 +27,7 @@ public class Allocation {
 	private DayOfWeek day;
 	
 	@Temporal(value = TemporalType.TIME)
-	@Column(nullable = false)
+	@Column(name = "Start",nullable = false)
 	private Date start;
 	
 	@Temporal(value = TemporalType.TIME)
