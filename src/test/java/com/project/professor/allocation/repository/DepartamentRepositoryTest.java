@@ -1,6 +1,7 @@
 package com.project.professor.allocation.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,47 @@ public class DepartamentRepositoryTest {
 	DepartamentRepository departmentRepository;
 
 	@Test
-	public void findall() {
+	public void findAll() {
 		List<Departament> listDept = departmentRepository.findAll();
-		System.out.println(listDept);
+		listDept.forEach(System.out::println);
+	}
+
+	@Test
+	public void findByID() {
+		Optional<Departament> departament = departmentRepository.findById(1L);
+
+		System.out.println(departament.orElse(null));
+	}
+
+	@Test
+	public void create() {
+		Departament dept = new Departament();
+		dept.setName("Telecom");
+		System.out.println(dept);
+
+		Departament deptSave = departmentRepository.save(dept);
+		System.out.println(deptSave);
+	}
+
+	@Test
+	public void upadate() {
+		Departament dept = new Departament();
+		dept.setName("Matemantica");
+		dept.setId(400l);
+		System.out.println(dept);
+
+		Departament deptSave = departmentRepository.save(dept);
+		System.out.println(deptSave);
+
+	}
+
+	@Test
+	public void delete() {
+		departmentRepository.deleteById(4l);
+	}
+
+	@Test
+	public void deleteAll() {
+		departmentRepository.deleteAll();
 	}
 }
