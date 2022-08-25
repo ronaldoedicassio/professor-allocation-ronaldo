@@ -39,12 +39,25 @@ public class DepartamentRepositoryTest {
 	@Test
 	public void create() {
 		Departament dept = new Departament();
-		dept.setName("Telecom");
+		dept.setName("Ecologia3");
 		System.out.println(dept);
 
 		Departament deptSave = departmentRepository.save(dept);
 		System.out.println(deptSave);
+	
+		Departament dept1 = new Departament();
+		dept1.setName("Humanas");
+		departmentRepository.save(dept1);
+		
+		Departament dept2 = new Departament();
+		dept2.setName("Biologica");
+		departmentRepository.save(dept2);
+		
+		Departament dept3 = new Departament();
+		dept3.setName("Medicina");		
+		departmentRepository.save(dept3);
 	}
+	
 
 	@Test
 	public void upadate() {
