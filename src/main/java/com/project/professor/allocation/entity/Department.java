@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Departament {
+public class Department {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +16,7 @@ public class Departament {
 	@Column(name = "Name", nullable = false)
 	private String name;
 
-	public Departament() {
+	public Department() {
 		super();
 	}
 

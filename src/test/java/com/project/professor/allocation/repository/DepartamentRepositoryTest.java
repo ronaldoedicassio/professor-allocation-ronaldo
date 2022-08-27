@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 
-import com.project.professor.allocation.entity.Departament;
+import com.project.professor.allocation.entity.Department;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -21,39 +21,39 @@ import com.project.professor.allocation.entity.Departament;
 public class DepartamentRepositoryTest {
 
 	@Autowired
-	DepartamentRepository departmentRepository;
+	DepartmentRepository departmentRepository;
 
 	@Test
 	public void findAll() {
-		List<Departament> listDept = departmentRepository.findAll();
+		List<Department> listDept = departmentRepository.findAll();
 		listDept.forEach(System.out::println);
 	}
 
 	@Test
 	public void findByID() {
-		Optional<Departament> departament = departmentRepository.findById(1L);
+		Optional<Department> departament = departmentRepository.findById(1L);
 
 		System.out.println(departament.orElse(null));
 	}
 
 	@Test
 	public void create() {
-		Departament dept = new Departament();
+		Department dept = new Department();
 		dept.setName("Ecologia3");
 		System.out.println(dept);
 
-		Departament deptSave = departmentRepository.save(dept);
+		Department deptSave = departmentRepository.save(dept);
 		System.out.println(deptSave);
 	
-		Departament dept1 = new Departament();
+		Department dept1 = new Department();
 		dept1.setName("Humanas");
 		departmentRepository.save(dept1);
 		
-		Departament dept2 = new Departament();
+		Department dept2 = new Department();
 		dept2.setName("Biologica");
 		departmentRepository.save(dept2);
 		
-		Departament dept3 = new Departament();
+		Department dept3 = new Department();
 		dept3.setName("Medicina");		
 		departmentRepository.save(dept3);
 	}
@@ -61,12 +61,12 @@ public class DepartamentRepositoryTest {
 
 	@Test
 	public void upadate() {
-		Departament dept = new Departament();
+		Department dept = new Department();
 		dept.setName("Matemantica");
 		dept.setId(400l);
 		System.out.println(dept);
 
-		Departament deptSave = departmentRepository.save(dept);
+		Department deptSave = departmentRepository.save(dept);
 		System.out.println(deptSave);
 
 	}
