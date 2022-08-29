@@ -29,7 +29,7 @@ public class Professor {
 	@ManyToOne
 	@JoinColumn(name = "Id_Departament", nullable = false, insertable = false, updatable = false)
 	private Department departament;
-	
+
 	public Department getDepartament() {
 		return departament;
 	}

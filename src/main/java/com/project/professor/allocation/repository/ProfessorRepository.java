@@ -10,10 +10,10 @@ import com.project.professor.allocation.entity.Professor;
 
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
-	Optional<Professor> findByDepartmentId(Long departmentId);
-
-	Optional<Professor> findByCpf(String cpf);
-
+	List<Professor> findByDepartmentId (Long departmentId);
+	
+	Optional<Professor> findByCpf (String cpf);
+	
 	List<Professor> findByNameContaining(String name);
 
 }
