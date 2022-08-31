@@ -40,7 +40,7 @@ public class ProfessorRepositroyTest {
 	@Test
 	public void create() {
 		Professor prof = new Professor();
-		prof.setName("rodrigo");prof.setCpf("22233344455");prof.setDepartmentId(6l);
+		prof.setName("rodrigo");prof.setCpf("22233344455");prof.setDepartmentId(3l);
 		professorRepository.save(prof);
 	}
 	

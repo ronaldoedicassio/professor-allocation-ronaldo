@@ -11,7 +11,8 @@ import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.repository.AllocationRepository;
 import com.project.professor.allocation.service.exception.ServiceAllocationTimeException;
 import com.project.professor.allocation.service.exception.ServiceColissiontException;
-import com.project.professor.allocation.service.exception.ServiceNameNotExistException;
+import com.project.professor.allocation.service.exception.ServiceNotFindException;
+import com.project.professor.allocation.service.exception.ServiceNotFindException;
 
 @Service
 public class AllocationService {
@@ -28,33 +29,49 @@ public class AllocationService {
 		this.courseService = courseService;
 	}
 
-	public List<Allocation> findByProfessorId(Long professorId) {
-		return allocationRepository.findByProfessorId(professorId);
+	public List<Allocation> findByProfessorId(Long professorId) throws ServiceNotFindException {
+		List<Allocation> allocated = allocationRepository.findByProfessorId(professorId);
+		if (allocated.isEmpty()) {
+			throw new ServiceNotFindException("Porfessor allocation not find");
+		} else {
+			return allocated;
+		}
 	}
 
-	public List<Allocation> findByCourseId(Long courseId) {
-		return allocationRepository.findByCourseId(courseId);
+	public List<Allocation> findByCourseId(Long courseId) throws ServiceNotFindException {
+		List<Allocation> allocated = allocationRepository.findByCourseId(courseId);
+		if (allocated.isEmpty()) {
+			throw new ServiceNotFindException("Course allocation not find");
+		} else {
+			return allocated;
+		}
 	}
 
-	public Optional<Allocation> findById(Long Id) {
-		return allocationRepository.findById(Id);
+	public Allocation findById(Long Id) throws ServiceNotFindException {
+		Allocation allocation = allocationRepository.findById(Id).orElse(null);
+		if (allocation == null) {
+			throw new ServiceNotFindException("Allocation doesn't exists");
+		} else {
+			return allocation;
+		}
 	}
 
 	public List<Allocation> findAll() {
 		return allocationRepository.findAll();
 	}
 
-	public Allocation create(Allocation allocation) {
+	public Allocation save(Allocation allocation) throws ServiceAllocationTimeException, ServiceColissiontException {
 		allocation.setId(null);
-		return allocationRepository.save(allocation);
+		return saveInternal(allocation);
 
 	}
 
-	public Allocation update(Allocation allocation) throws ServiceNameNotExistException {
+	public Allocation update(Allocation allocation)
+			throws ServiceNotFindException, ServiceAllocationTimeException, ServiceColissiontException {
 		if (allocation.getId() != null && allocationRepository.existsById(allocation.getId())) {
-			return allocationRepository.save(allocation);
+			return saveInternal(allocation);
 		} else {
-			throw new ServiceNameNotExistException("Allocation doesn't exist");
+			throw new ServiceNotFindException("Allocation doesn't exist");
 		}
 	}
 
@@ -62,13 +79,12 @@ public class AllocationService {
 		allocationRepository.deleteAll();
 	}
 
-	public void deleteById(Long id) throws ServiceNameNotExistException {
+	public void deleteById(Long id) throws ServiceNotFindException {
 		if (id != null && allocationRepository.existsById(id)) {
 			allocationRepository.deleteById(id);
 		} else {
-			throw new ServiceNameNotExistException("Allocation ID doesn't exist");
+			throw new ServiceNotFindException("Allocation ID doesn't exist");
 		}
-
 	}
 
 	private Allocation saveInternal(Allocation allocation)
@@ -92,7 +108,7 @@ public class AllocationService {
 		boolean isEndHourGreaterThanStartHour = true;
 
 		if (allocation.getStart() != null && allocation.getEnd() != null
-				&& allocation.getEnd().compareTo(allocation.getStart()) > 0) {
+				&& allocation.getEnd().compareTo(allocation.getStart()) < 0) {
 			throw new ServiceAllocationTimeException("Hour end must be less start hour");
 		}
 		return isEndHourGreaterThanStartHour;
@@ -115,7 +131,6 @@ public class AllocationService {
 	private boolean hasColission(Allocation currentAllocation, Allocation newAllocation) {
 		return !currentAllocation.getId().equals(newAllocation.getId())
 				&& currentAllocation.getDay() == newAllocation.getDay()
-				&& currentAllocation.getStart().compareTo(newAllocation.getEnd()) < 0
 				&& currentAllocation.getStart().compareTo(newAllocation.getEnd()) < 0
 				&& newAllocation.getStart().compareTo(currentAllocation.getEnd()) < 0;
 	}

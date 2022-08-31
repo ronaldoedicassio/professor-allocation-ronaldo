@@ -17,7 +17,6 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Allocation {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -114,6 +113,12 @@ public class Allocation {
 
 	public void setProfessorId(Long professorId) {
 		this.professorId = professorId;
+	}
+
+	@Override
+	public String toString() {
+		return "Allocation [id=" + id + ", day=" + day + ", start=" + start + ", end=" + end + ", courseId=" + courseId
+				+ ", course=" + course + ", professorId=" + professorId + ", professor=" + professor + "]";
 	}
 
 }
