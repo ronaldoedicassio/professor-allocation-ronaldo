@@ -9,7 +9,7 @@ import com.project.professor.allocation.entity.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
-	
 
-
+	List<Course> findByNameContaining(String name);
 }
+

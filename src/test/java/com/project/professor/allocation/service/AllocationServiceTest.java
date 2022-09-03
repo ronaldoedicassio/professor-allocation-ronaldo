@@ -50,6 +50,8 @@ public class AllocationServiceTest {
 			System.out.println(e.getServiceNameNotExistExpetion());
 		} catch (ServiceColissiontException e) {
 			System.out.println(e.getServiceNameNotExistExpetion());
+		} catch (ServiceNotFindException e) {
+			System.out.println(e.getServiceNameNotExistExpetion());
 		}
 
 	}

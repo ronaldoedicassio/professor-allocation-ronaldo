@@ -3,26 +3,70 @@ package com.project.professor.allocation.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 
-import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.repository.CourseRepository;
+import com.project.professor.allocation.service.exception.ServiceNotFindException;
+
+import net.bytebuddy.implementation.bytecode.Throw;
 
 @Service
 public class CourseService {
 
-	private final CourseService courseService;
 	private final CourseRepository courseRepository;
 
-	public CourseService(CourseService courseService, CourseRepository courseRepository) {
+	public CourseService(CourseRepository courseRepository) {
 		super();
-		this.courseService = courseService;
 		this.courseRepository = courseRepository;
 	}
-	
-	public Course findByCourseId(Long courseId) {
-		return courseRepository.findById(courseId).orElse(null);
+
+	public Course findByCourseId(Long courseId) throws ServiceNotFindException {
+		Course course = courseRepository.findById(courseId).orElse(null);
+		if (course != null) {
+			return course;
+		}else {
+			throw new ServiceNotFindException("Course not find");
+		}
 	}
 
+	public List<Course> findByNameContaining(String name) {
+		return courseRepository.findByNameContaining(name);
+
+	}
+
+	public List<Course> findAll() {
+		return courseRepository.findAll();
+
+	}
+
+	public Course findById(Long id) {
+		return courseRepository.findById(id).orElse(null);
+
+	}
+
+	public Course save(Course course) {
+		course.setId(null);
+		return courseRepository.save(course);
+	}
+
+	public Course update(Course course) throws ServiceNotFindException {
+		if (course.getId() != null && courseRepository.existsById(course.getId())) {
+			return courseRepository.save(course);
+		} else {
+			throw new ServiceNotFindException("Course doesn't find");
+		}
+	}
+
+	public void deleteById(Long id) throws ServiceNotFindException {
+		if (id != null && courseRepository.existsById(id)) {
+			courseRepository.deleteById(id);
+		} else {
+			throw new ServiceNotFindException("Course doesn't find");
+		}
+	}
+	public void deleteAll() {
+		courseRepository.deleteAllInBatch();
+	}
 }

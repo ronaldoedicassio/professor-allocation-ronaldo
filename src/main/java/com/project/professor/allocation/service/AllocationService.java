@@ -1,7 +1,6 @@
 package com.project.professor.allocation.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,6 @@ import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.repository.AllocationRepository;
 import com.project.professor.allocation.service.exception.ServiceAllocationTimeException;
 import com.project.professor.allocation.service.exception.ServiceColissiontException;
-import com.project.professor.allocation.service.exception.ServiceNotFindException;
 import com.project.professor.allocation.service.exception.ServiceNotFindException;
 
 @Service
@@ -60,7 +58,7 @@ public class AllocationService {
 		return allocationRepository.findAll();
 	}
 
-	public Allocation save(Allocation allocation) throws ServiceAllocationTimeException, ServiceColissiontException {
+	public Allocation save(Allocation allocation) throws ServiceAllocationTimeException, ServiceColissiontException, ServiceNotFindException {
 		allocation.setId(null);
 		return saveInternal(allocation);
 
@@ -88,7 +86,7 @@ public class AllocationService {
 	}
 
 	private Allocation saveInternal(Allocation allocation)
-			throws ServiceAllocationTimeException, ServiceColissiontException {
+			throws ServiceAllocationTimeException, ServiceColissiontException, ServiceNotFindException {
 
 		isEndHourGreaterThanStartHour(allocation);
 		hasCollission(allocation);
