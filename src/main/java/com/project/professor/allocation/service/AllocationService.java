@@ -27,38 +27,27 @@ public class AllocationService {
 		this.courseService = courseService;
 	}
 
-	public List<Allocation> findByProfessorId(Long professorId) throws ServiceNotFindException {
-		List<Allocation> allocated = allocationRepository.findByProfessorId(professorId);
-		if (allocated.isEmpty()) {
-			throw new ServiceNotFindException("Porfessor allocation not find");
-		} else {
-			return allocated;
-		}
+	public List<Allocation> findByProfessorId(Long professorId) {
+		return allocationRepository.findByProfessorId(professorId);
+
 	}
 
-	public List<Allocation> findByCourseId(Long courseId) throws ServiceNotFindException {
-		List<Allocation> allocated = allocationRepository.findByCourseId(courseId);
-		if (allocated.isEmpty()) {
-			throw new ServiceNotFindException("Course allocation not find");
-		} else {
-			return allocated;
-		}
+	public List<Allocation> findByCourseId(Long courseId) {
+		return allocationRepository.findByCourseId(courseId);
+
 	}
 
-	public Allocation findById(Long Id) throws ServiceNotFindException {
-		Allocation allocation = allocationRepository.findById(Id).orElse(null);
-		if (allocation == null) {
-			throw new ServiceNotFindException("Allocation doesn't exists");
-		} else {
-			return allocation;
-		}
+	public Allocation findById(Long Id) {
+		return allocationRepository.findById(Id).orElse(null);
+
 	}
 
 	public List<Allocation> findAll() {
 		return allocationRepository.findAll();
 	}
 
-	public Allocation save(Allocation allocation) throws ServiceAllocationTimeException, ServiceColissiontException, ServiceNotFindException {
+	public Allocation save(Allocation allocation)
+			throws ServiceAllocationTimeException, ServiceColissiontException, ServiceNotFindException {
 		allocation.setId(null);
 		return saveInternal(allocation);
 

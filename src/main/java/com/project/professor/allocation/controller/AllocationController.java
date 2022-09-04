@@ -37,45 +37,32 @@ public class AllocationController {
 	public ResponseEntity<List<Allocation>> findAll() {
 
 		List<Allocation> allocation = allocationService.findAll();
-		if (allocation == null) {
-			return new ResponseEntity<List<Allocation>>(allocation, HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<List<Allocation>>(allocation, HttpStatus.OK);
-		}
+		return new ResponseEntity<List<Allocation>>(allocation, HttpStatus.OK);
 
 	}
 
 	@GetMapping(path = "/{allocation_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Allocation> findById(@PathVariable(name = "allocation_id") Long id) {
 
-		try {
-			Allocation allocation = allocationService.findById(id);
-			return new ResponseEntity<Allocation>(allocation, HttpStatus.OK);
-		} catch (ServiceNotFindException e) {
-			return new ResponseEntity<Allocation>(HttpStatus.NOT_FOUND);
-		}
+		Allocation allocation = allocationService.findById(id);
+		return new ResponseEntity<Allocation>(allocation, HttpStatus.OK);
+
 	}
 
 	@GetMapping(path = "/course/{course_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Allocation>> findByCourseId(@PathVariable(name = "course_id") Long courseId) {
 
-		try {
-			List<Allocation> coursesAllocated = allocationService.findByCourseId(courseId);
-			return new ResponseEntity<>(coursesAllocated, HttpStatus.OK);
-		} catch (ServiceNotFindException e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		List<Allocation> coursesAllocated = allocationService.findByCourseId(courseId);
+		return new ResponseEntity<>(coursesAllocated, HttpStatus.OK);
+
 	}
 
 	@GetMapping(path = "/professor/{professor_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Allocation>> findByProfessorId(@PathVariable(name = "professor_id") Long professorId) {
 
-		try {
-			List<Allocation> coursesAllocated = allocationService.findByProfessorId(professorId);
-			return new ResponseEntity<>(coursesAllocated, HttpStatus.OK);
-		} catch (ServiceNotFindException e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		List<Allocation> coursesAllocated = allocationService.findByProfessorId(professorId);
+		return new ResponseEntity<>(coursesAllocated, HttpStatus.OK);
+
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
