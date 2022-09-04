@@ -45,8 +45,8 @@ public class AllocationController {
 
 	}
 
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Allocation> findById(Long id) {
+	@GetMapping(path = "/{allocation_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Allocation> findById(@PathVariable(name = "allocation_id") Long id) {
 
 		try {
 			Allocation allocation = allocationService.findById(id);
