@@ -34,6 +34,7 @@ public class AllocationController {
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<Allocation>> findAll() {
 
 		List<Allocation> allocation = allocationService.findAll();
@@ -42,6 +43,7 @@ public class AllocationController {
 	}
 
 	@GetMapping(path = "/{allocation_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Allocation> findById(@PathVariable(name = "allocation_id") Long id) {
 
 		Allocation allocation = allocationService.findById(id);
@@ -50,6 +52,7 @@ public class AllocationController {
 	}
 
 	@GetMapping(path = "/course/{course_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<Allocation>> findByCourseId(@PathVariable(name = "course_id") Long courseId) {
 
 		List<Allocation> coursesAllocated = allocationService.findByCourseId(courseId);
@@ -58,6 +61,7 @@ public class AllocationController {
 	}
 
 	@GetMapping(path = "/professor/{professor_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<Allocation>> findByProfessorId(@PathVariable(name = "professor_id") Long professorId) {
 
 		List<Allocation> coursesAllocated = allocationService.findByProfessorId(professorId);
@@ -77,6 +81,7 @@ public class AllocationController {
 	}
 
 	@PutMapping(path = "/{allocation_id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Allocation> upadate(@PathVariable(name = "allocation_id") Long id,
 			@RequestBody Allocation allocation) {
 		allocation.setId(id);
@@ -91,6 +96,7 @@ public class AllocationController {
 	}
 
 	@DeleteMapping(path = "/{allocation_id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> deleteById(@PathVariable(name = "allocation_id") Long id) {
 		try {
 			allocationService.deleteById(id);
@@ -102,6 +108,7 @@ public class AllocationController {
 	}
 
 	@DeleteMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> deleteAll() {
 		allocationService.deleteAll();
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

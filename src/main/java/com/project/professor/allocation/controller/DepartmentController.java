@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.professor.allocation.entity.Department;
@@ -33,6 +34,7 @@ public class DepartmentController {
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<Department>> findAll(@RequestParam(name = "name", required = false) String name) {
 
 		List<Department> departaments = departmentService.findAll();
@@ -45,6 +47,7 @@ public class DepartmentController {
 	}
 
 	@GetMapping(path = "/{departament_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Department> findById(@PathVariable(name = "departament_id") Long id) {
 		Department department = departmentService.findById(id).orElse(null);
 
@@ -56,6 +59,7 @@ public class DepartmentController {
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Department> create(@RequestBody Department departament) {
 
 		try {
@@ -67,6 +71,7 @@ public class DepartmentController {
 	}
 
 	@PutMapping(path = "/{departament_id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Department> upadate(@RequestBody Department department,
 			@PathVariable(name = "departament_id", required = true) Long departmentId) {
 
@@ -86,6 +91,7 @@ public class DepartmentController {
 	}
 
 	@DeleteMapping(path = "/{departament_id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> delete(@PathVariable(name = "departament_id") Long id) {
 
 		try {
@@ -97,6 +103,7 @@ public class DepartmentController {
 	}
 
 	@DeleteMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> delete() {
 
 		departmentService.deleteAll();
