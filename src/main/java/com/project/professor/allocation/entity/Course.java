@@ -19,21 +19,20 @@ public class Course {
 	@JsonProperty(access = Access.READ_ONLY)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@JsonProperty(access = Access.READ_ONLY)	
+		
 	@Column(name = "Name",nullable = false)
 	private String name;
 
-    @OneToMany(mappedBy = "course")
-    private List<Allocation> allocations;
-
-	public List<Allocation> getAllocations() {
-		return allocations;
-	}
-
-	public void setAllocations(List<Allocation> allocations) {
-		this.allocations = allocations;
-	}
+//    @OneToMany(mappedBy = "course")
+//    private List<Allocation> allocations;
+//
+//	public List<Allocation> getAllocations() {
+//		return allocations;
+//	}
+//
+//	public void setAllocations(List<Allocation> allocations) {
+//		this.allocations = allocations;
+//	}
 
 	public Course() {
 		super();

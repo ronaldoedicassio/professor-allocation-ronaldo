@@ -76,7 +76,7 @@ public class DepartmentController {
     })
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Department> create(@RequestBody Department departament) {
+	public ResponseEntity<Department> save(@RequestBody Department departament) {
 
 		try {
 			Department dpt = departmentService.save(departament);
