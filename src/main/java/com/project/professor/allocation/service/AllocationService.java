@@ -109,10 +109,10 @@ public class AllocationService {
 		for (Allocation currentAllocation : currentAllocations) {
 			hasCollision = hasColission(currentAllocation, newAllocation);
 			if (hasCollision) {
-				return hasCollision;
+				throw new ServiceColissiontException("For this allocation time Profesor already allocation");
 			}
 		}
-		throw new ServiceColissiontException("For this allocation time Profesor already allocation");
+		return hasCollision;
 	}
 
 	private boolean hasColission(Allocation currentAllocation, Allocation newAllocation) {
