@@ -23,17 +23,6 @@ public class Course {
 	@Column(name = "Name",nullable = false)
 	private String name;
 
-//    @OneToMany(mappedBy = "course")
-//    private List<Allocation> allocations;
-//
-//	public List<Allocation> getAllocations() {
-//		return allocations;
-//	}
-//
-//	public void setAllocations(List<Allocation> allocations) {
-//		this.allocations = allocations;
-//	}
-
 	public Course() {
 		super();
 	}

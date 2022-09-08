@@ -64,7 +64,7 @@ public class CourseController {
 			return new ResponseEntity<Course>(HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<Course>(courses, HttpStatus.OK);
-		}
+		}		
 	}
 
 	@ApiOperation(value = "Save a course")
