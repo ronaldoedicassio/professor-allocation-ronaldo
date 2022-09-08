@@ -23,18 +23,6 @@ public class Department {
 	@Column(name = "Name", nullable = false)
 	private String name;
 
-//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-//	@OneToMany(mappedBy = "department")
-//	private List<Professor> professors;
-
-//	public List<Professor> getProfessors() {
-//		return professors;
-//	}
-//
-//	public void setProfessors(List<Professor> professors) {
-//		this.professors = professors;
-//	}
-
 	public Department() {
 		super();
 	}
