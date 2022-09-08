@@ -1,10 +1,10 @@
 package com.project.professor.allocation.service.exception;
 
-public class ServiceColissiontException extends Exception {
+public class ColissiontException extends Exception {
 	
 	private String serviceColissiontException;
 	
-	public ServiceColissiontException(String serviceColissiontException) {
+	public ColissiontException(String serviceColissiontException) {
 		super("Colission has detected");
 		this.serviceColissiontException = serviceColissiontException;
 

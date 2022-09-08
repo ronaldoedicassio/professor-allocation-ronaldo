@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.service.AllocationService;
-import com.project.professor.allocation.service.exception.ServiceAllocationTimeException;
-import com.project.professor.allocation.service.exception.ServiceColissiontException;
-import com.project.professor.allocation.service.exception.ServiceNotFindException;
+import com.project.professor.allocation.service.exception.AllocationTimeException;
+import com.project.professor.allocation.service.exception.ColissiontException;
+import com.project.professor.allocation.service.exception.EntityNotFindException;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -48,8 +48,12 @@ public class AllocationController {
 
 	}
 
-	@ApiOperation(value = "Find allocation by ID")
-	@ApiResponses({ @ApiResponse(code = 200, message = "OK") })
+    @ApiOperation(value = "Find an allocation by id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
+    })
 	@GetMapping(path = "/{allocation_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Allocation> findById(@PathVariable(name = "allocation_id") Long id) {
@@ -58,9 +62,12 @@ public class AllocationController {
 		return new ResponseEntity<Allocation>(allocation, HttpStatus.OK);
 
 	}
-
-	@ApiOperation(value = "Find Allocation by Course ID")
-	@ApiResponses({ @ApiResponse(code = 200, message = "OK") })
+    
+    @ApiOperation(value = "Find allocations by Course")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
 	@GetMapping(path = "/course/{course_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<Allocation>> findByCourseId(@PathVariable(name = "course_id") Long courseId) {
@@ -70,8 +77,11 @@ public class AllocationController {
 
 	}
 
-	@ApiOperation(value = "Find Allocation by professor ID")
-	@ApiResponses({ @ApiResponse(code = 200, message = "OK") })
+    @ApiOperation(value = "Find allocations by professor")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
 	@GetMapping(path = "/professor/{professor_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<Allocation>> findByProfessorId(@PathVariable(name = "professor_id") Long professorId) {
@@ -86,12 +96,13 @@ public class AllocationController {
 		@ApiResponse(code = 201, message = "OK"),
 		@ApiResponse(code = 400, message = "Bad request") })
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Allocation> create(@RequestBody Allocation allocation) {
 
 		try {
 			Allocation allocated = allocationService.save(allocation);
 			return new ResponseEntity<Allocation>(allocated, HttpStatus.CREATED);
-		} catch (ServiceAllocationTimeException | ServiceColissiontException | ServiceNotFindException e) {
+		} catch (AllocationTimeException | ColissiontException | EntityNotFindException e) {
 			return new ResponseEntity<Allocation>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -111,7 +122,7 @@ public class AllocationController {
 			allocationService.update(allocation);
 			return new ResponseEntity<Allocation>(allocation, HttpStatus.OK);
 
-		} catch (ServiceNotFindException | ServiceAllocationTimeException | ServiceColissiontException e) {
+		} catch (EntityNotFindException | AllocationTimeException | ColissiontException e) {
 			return new ResponseEntity<Allocation>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -126,7 +137,7 @@ public class AllocationController {
 		try {
 			allocationService.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (ServiceNotFindException e) {
+		} catch (EntityNotFindException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.service.ProfessorService;
-import com.project.professor.allocation.service.exception.ServiceNotFindException;
+import com.project.professor.allocation.service.exception.EntityNotFindException;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -38,7 +38,7 @@ public class ProfessorController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<Professor>> findAll(@RequestParam(name = "name", required = false) String name)
-			throws ServiceNotFindException {
+			throws EntityNotFindException {
 		List<Professor> professors;
 		if (name == null) {
 			professors = professorService.findAll();
@@ -57,7 +57,7 @@ public class ProfessorController {
 	@GetMapping("/{professor_id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Professor> findById(@PathVariable(name = "professor_id") Long id)
-			throws ServiceNotFindException {
+			throws EntityNotFindException {
 		Professor professor = professorService.findById(id);
 		if (professor == null) {
 			return new ResponseEntity<>(professor, HttpStatus.NOT_FOUND);
@@ -72,7 +72,7 @@ public class ProfessorController {
 			@ApiResponse(code = 400, message = "Bad Request") })
 	@GetMapping("deptid/{department_id}")
 	public ResponseEntity<List<Professor>> findByDepartmentId(@PathVariable(name = "department_id") Long departmentId)
-			throws ServiceNotFindException {
+			throws EntityNotFindException {
 		List<Professor> professor = professorService.findByDepartmentId(departmentId);
 		if (professor.size() == 0) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -87,7 +87,7 @@ public class ProfessorController {
 			@ApiResponse(code = 400, message = "Bad Request") })
 	@GetMapping(value = "/cpf")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Professor> findByCpf(@RequestParam String cpf) throws ServiceNotFindException {
+	public ResponseEntity<Professor> findByCpf(@RequestParam String cpf) throws EntityNotFindException {
 		Professor professor = professorService.findByCpf(cpf);
 		if (professor != null) {
 			return new ResponseEntity<>(professor, HttpStatus.OK);
@@ -139,7 +139,7 @@ public class ProfessorController {
 	@DeleteMapping(path = "/{professor_id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Void> deleteById(@PathVariable(name = "professor_id") Long id)
-			throws ServiceNotFindException {
+			throws EntityNotFindException {
 		try {
 			professorService.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);

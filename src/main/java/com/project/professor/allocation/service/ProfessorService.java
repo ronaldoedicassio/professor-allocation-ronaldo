@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.repository.ProfessorRepository;
-import com.project.professor.allocation.service.exception.ServiceNotFindException;
+import com.project.professor.allocation.service.exception.EntityNotFindException;
 
 @Service
 public class ProfessorService {
@@ -44,18 +44,18 @@ public class ProfessorService {
 		return professorRepository.save(professor);
 	}
 
-	public Professor update(Professor professor) throws ServiceNotFindException {
+	public Professor update(Professor professor) throws EntityNotFindException {
 		if (professor.getId() != null && professorRepository.existsById(professor.getId())) {
 			return professorRepository.save(professor);
 		} else
-			throw new ServiceNotFindException("Professor  doesnt exists");
+			throw new EntityNotFindException("Professor  doesnt exists");
 	}
 
-	public void deleteById(Long id) throws ServiceNotFindException {
+	public void deleteById(Long id) throws EntityNotFindException {
 		if (id != null && professorRepository.existsById(id)) {
 			professorRepository.deleteById(id);
 		} else {
-			throw new ServiceNotFindException("Professor Id doesnt exists");
+			throw new EntityNotFindException("Professor Id doesnt exists");
 		}
 	}
 
