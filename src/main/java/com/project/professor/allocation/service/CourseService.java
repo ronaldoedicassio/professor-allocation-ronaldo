@@ -7,6 +7,8 @@ import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 
 import com.project.professor.allocation.entity.Course;
+import com.project.professor.allocation.entity.Department;
+import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.repository.CourseRepository;
 import com.project.professor.allocation.service.exception.EntityNotFindException;
 
@@ -26,7 +28,7 @@ public class CourseService {
 		Course course = courseRepository.findById(courseId).orElse(null);
 		if (course != null) {
 			return course;
-		}else {
+		} else {
 			throw new EntityNotFindException("Course not find");
 		}
 	}
@@ -66,6 +68,7 @@ public class CourseService {
 			throw new EntityNotFindException("Course doesn't find");
 		}
 	}
+
 	public void deleteAll() {
 		courseRepository.deleteAllInBatch();
 	}
