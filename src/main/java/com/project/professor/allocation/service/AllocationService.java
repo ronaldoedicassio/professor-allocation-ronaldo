@@ -50,7 +50,6 @@ public class AllocationService {
 			throws AllocationTimeException, ColissiontException, EntityNotFindException {
 		allocation.setId(null);
 		return saveInternal(allocation);
-
 	}
 
 	public Allocation update(Allocation allocation)

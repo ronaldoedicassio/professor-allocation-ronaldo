@@ -68,8 +68,9 @@ public class ProfessorController {
 
 	@ApiOperation(value = "Find professors by department")
 	@ApiResponses({ 
-			@ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 400, message = "Bad Request") })
+		@ApiResponse(code = 200, message = "OK"), 
+		@ApiResponse(code = 400, message = "Bad Request"),
+		@ApiResponse(code = 404, message = "Not Found") })
 	@GetMapping("deptid/{department_id}")
 	public ResponseEntity<List<Professor>> findByDepartmentId(@PathVariable(name = "department_id") Long departmentId)
 			throws EntityNotFindException {
@@ -83,16 +84,18 @@ public class ProfessorController {
 
 	@ApiOperation(value = "Find professors by CPF")
 	@ApiResponses({ 
-			@ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 400, message = "Bad Request") })
+		@ApiResponse(code = 200, message = "OK"), 
+		@ApiResponse(code = 400, message = "Bad Request"),
+		@ApiResponse(code = 404, message = "Not Found") })
 	@GetMapping(value = "/cpf")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Professor> findByCpf(@RequestParam String cpf) throws EntityNotFindException {
+		
 		Professor professor = professorService.findByCpf(cpf);
 		if (professor != null) {
 			return new ResponseEntity<>(professor, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(professor, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 

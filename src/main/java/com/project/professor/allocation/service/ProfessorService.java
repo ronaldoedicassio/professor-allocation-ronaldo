@@ -23,20 +23,43 @@ public class ProfessorService {
 		return professorRepository.findAll();
 	}
 
-	public List<Professor> findByNameContaining(String name) {
-		return professorRepository.findByNameContaining(name);
+	public List<Professor> findByNameContaining(String name) throws EntityNotFindException {
+
+		List<Professor> professorNameContaining = professorRepository.findByNameContaining(name);
+		if (professorNameContaining != null) {
+			return professorNameContaining;
+		} else {
+			throw new EntityNotFindException("Name not find");
+		}
 	}
 
-	public Professor findById(Long id) {
-		return professorRepository.findById(id).orElse(null);
+	public Professor findById(Long id) throws EntityNotFindException {
+
+		if (professorRepository.existsById(id)) {
+			return professorRepository.findById(id).orElse(null);
+		} else {
+			throw new EntityNotFindException("Id doesn't exist");
+		}
 	}
 
-	public Professor findByCpf(String cpf) {
-		return professorRepository.findByCpf(cpf).orElse(null);
+	public Professor findByCpf(String cpf) throws EntityNotFindException {
+		Optional<Professor> professorById = professorRepository.findByCpf(cpf);
+
+		if (professorById != null) {
+			return professorRepository.findByCpf(cpf).orElse(null);
+		} else {
+			throw new EntityNotFindException("CPF doesn't exist");
+		}
 	}
 
-	public List<Professor> findByDepartmentId(Long departmentId) {
-		return professorRepository.findByDepartmentId(departmentId);
+	public List<Professor> findByDepartmentId(Long departmentId) throws EntityNotFindException {
+		List<Professor> professorByDepartamentId = professorRepository.findByDepartmentId(departmentId);
+
+		if (professorByDepartamentId != null) {
+			return professorByDepartamentId;
+		} else {
+			throw new EntityNotFindException("Professor not find for this departament ID");
+		}
 	}
 
 	public Professor save(Professor professor) {
