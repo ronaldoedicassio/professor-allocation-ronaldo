@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.service.CourseService;
+import com.project.professor.allocation.service.exception.AllocatedExistsException;
 import com.project.professor.allocation.service.exception.EntityNotFindException;
 
 import io.swagger.annotations.ApiOperation;
@@ -106,11 +107,13 @@ public class CourseController {
 	@ApiResponses({ @ApiResponse(code = 204, message = "No Content") })
 	@DeleteMapping(path = "/{course_id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Void> deleteById(@PathVariable(name = "course_id") Long id) throws EntityNotFindException {
+	public ResponseEntity<Void> deleteById(@PathVariable(name = "course_id") Long id){
 		try {
 			courseService.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
+		}catch (AllocatedExistsException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (EntityNotFindException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -120,7 +123,11 @@ public class CourseController {
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> deleteAll() {
-		courseService.deleteAll();
+		try {
+			courseService.deleteAll();
+		} catch (AllocatedExistsException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
