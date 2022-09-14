@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.service.DepartmentService;
+import com.project.professor.allocation.service.exception.AllocatedExistsException;
 import com.project.professor.allocation.service.exception.EntityNotFindException;
 
 import io.swagger.annotations.ApiOperation;
@@ -124,6 +125,8 @@ public class DepartmentController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (EntityNotFindException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch(AllocatedExistsException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -135,7 +138,11 @@ public class DepartmentController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> delete() {
 
-		departmentService.deleteAll();
+		try {
+			departmentService.deleteAll();
+		} catch (AllocatedExistsException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
 	}

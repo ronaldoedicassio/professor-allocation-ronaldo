@@ -1,10 +1,10 @@
 package com.project.professor.allocation.service.exception;
 
-public class AllocationExistsException extends Exception {
+public class AllocatedExistsException extends Exception {
 
 	private static final long serialVersionUID = 5L;
 
-	public AllocationExistsException(String msg) {
+	public AllocatedExistsException(String msg) {
 		super(msg);
 	}
 }

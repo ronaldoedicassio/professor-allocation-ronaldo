@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.service.ProfessorService;
-import com.project.professor.allocation.service.exception.AllocationExistsException;
+import com.project.professor.allocation.service.exception.AllocatedExistsException;
 import com.project.professor.allocation.service.exception.EntityNotFindException;
 
 import io.swagger.annotations.ApiOperation;
@@ -146,7 +146,7 @@ public class ProfessorController {
 		try {
 			professorService.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (AllocationExistsException e) {
+		} catch (AllocatedExistsException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} catch (EntityNotFindException e) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -160,7 +160,7 @@ public class ProfessorController {
 	public ResponseEntity<Void> deleteAll() {
 		try {
 			professorService.deleteAll();
-		} catch (AllocationExistsException e) {
+		} catch (AllocatedExistsException e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
